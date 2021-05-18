@@ -1,0 +1,3 @@
+{
+    "files": ["gamemodel/__init__.py","gamemodel/connectfour.py","__init__.py","mainwindow.py","gamemodel/wrongmoveexception.py"]
+}
