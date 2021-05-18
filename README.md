@@ -22,7 +22,7 @@ Rozgrywka toczy się w oknie głównym `MainWindow`, które wyświetla np. plans
 class  MainWindow(QMainWindow)
 class  GameStateDialog(QDialog)
 ```
-Do obsługi błednego ruchu użytkownika w trakcie gry używana jest klasa wyjątku `WrongMoveException`:
+Do obsługi błędnego ruchu użytkownika w trakcie gry używana jest klasa wyjątku `WrongMoveException`:
 ```python
 class  WrongMoveException(Exception)
 ```
@@ -31,9 +31,104 @@ class  WrongMoveException(Exception)
 Projekt udało się w pełni zrealizować. Wytyczne dla projektu zostały wypełnione i rozwiązanie jest w pełni kompletne. Testy zawarte w pliku `connectfour_test.py` potwierdzają działanie logiki programu.  
 
 ## Istotne fragmenty kodu
-1. Wyrażenia lambda: https://github.com/sweakpl/connect-four/blob/c48716e2000b34ad9ae50820b29df5f9f5f49089/mainwindow.py#L143-L146
+1. Wyrażenia lambda: 
+	- [Przykład 1](https://github.com/sweakpl/connect-four/blob/c48716e2000b34ad9ae50820b29df5f9f5f49089/mainwindow.py#L143-L146)
+	```python
+	for drop_button, pop_button, column in zip(self.drop_buttons,
+	self.pop_buttons, range(7)):
+		drop_button.clicked.connect(lambda *args, column=column: self.drop_move(column))
+		pop_button.clicked.connect(lambda *args, column=column: self.pop_move(column))
+	```
+	- [Przykład 2](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/mainwindow.py#L78-L79)
+	```python
+	self.game_mode_combo_box.currentIndexChanged.connect(
+		lambda *args: self.set_game_mode(self.game_mode_combo_box.currentText()))
+	```
+	- [Przykład 3](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/gamestatedialog.py#L41)
+	```python
+	self.ok_button.clicked.connect(lambda: self.accept())
 2. Wyrażenia listowe:
+	- [Przykład 1](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/mainwindow.py#L123)
+	```python
+	positions  =  list(chain.from_iterable([[(i, j) for  j  in  range(7)] for  i  in  range(6)]))
+	```
+	- [Przykład 2](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/gamemodel/connectfour.py#L16)
+	```python
+	return [[0  for  i  in  range(self.column_count)] for  i  in  range(self.row_count)]
+	```
+	- [Przykład 3](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/connectfour_test.py#L20)
+	```python
+	expected_board  = [[0  for  i  in  range(7)] for  i  in  range(6)]
+	```
 3. Klasy:
+	- [Przykład 1](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/gamemodel/connectfour.py#L6-L46)
+	```python
+	class  ConnectFourBase
+	```
+	- [Przykład 2](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/gamemodel/connectfour.py#L49-L105)
+	```python
+	class  ConnectFourClassic(ConnectFourBase)
+	```
+	- [Przykład 3](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/gamemodel/connectfour.py#L108-L177)
+	```python
+	class  ConnectFourPopOut(ConnectFourBase)
+	```
+	- [Przykład 4](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/mainwindow.py#L12-L220)
+	```python
+	class  MainWindow(QMainWindow)
+	```
+	- [Przykład 5](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/gamestatedialog.py#L8-L42)
+	```python
+	class  GameStateDialog(QDialog)
+	```
 4. Wyjątki:
+	- [Przykład 1](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/gamemodel/wrongmoveexception.py#L3-L10)
+	```python
+	class  WrongMoveException(Exception)
+	```
+	- [Przykład 2](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/mainwindow.py#L179-L183)
+	```python
+	try:
+		move_func(self, *args, **kwargs)
+		self.render_board()
+	except WrongMoveException:
+		self.info_label.setText("Can't make a move here!")
+	```
 5. Moduły:
+	```
+	ConnectFour/
+	│
+	├── drawable/
+	|	├── empty_field.png
+	|	├── red_field.png
+	|	├── yellow_field.png
+	├── gamemodel/
+	|	├── __init__.py
+	|	├── connectfour.py
+	|	├── wrongmoveexception.py
+	├── ConnectFour.pyproject
+	├── README.md
+	├── __init__.py
+	├── connectfour_test.py
+	├── gamestatedialog.py
+	└── mainwindow.py
 6. Dekoratory:
+	- [Przykład 1](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/mainwindow.py#L175-L184)
+	```python
+	def move(move_func):
+	'''A wrapper function for any type of move during the game'''
+	
+		def wrap(self, *args, **kwargs):
+			try:
+				move_func(self, *args, **kwargs)
+				self.render_board()
+			except WrongMoveException:
+				self.info_label.setText("Can't make a move here!")
+			return wrap
+	@move
+	def drop_move(self, column):
+		# drop_move implementation (throws WrongMoveException)
+
+	@move
+	def pop_move(self, column):
+		# pop_move implementation (throws WrongMoveException)
