@@ -31,7 +31,7 @@ class  WrongMoveException(Exception)
 Projekt udało się w pełni zrealizować. Wytyczne dla projektu zostały wypełnione i rozwiązanie jest w pełni kompletne. Testy zawarte w pliku `connectfour_test.py` potwierdzają działanie logiki programu.  
 
 ## Istotne fragmenty kodu
-1. Wyrażenia lambda:
+1. Wyrażenia lambda: https://github.com/sweakpl/connect-four/blob/c48716e2000b34ad9ae50820b29df5f9f5f49089/mainwindow.py#L143-L146
 2. Wyrażenia listowe:
 3. Klasy:
 4. Wyjątki:
