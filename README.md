@@ -1,6 +1,6 @@
 # ConnectFour (Cztery w rzędzie)
 *Cztery w rzędzie* ([*Connect Four*](https://en.wikipedia.org/wiki/Connect_Four)) planszowa gra logiczna dla dwóch osób, w której wykorzystuje się planszę o wymiarach 7 x 6 pól. Pierwszy gracz wrzuca swój żeton do wybranej przez niego kolumny. Żeton zajmuje najniższą pozycję. Gracze wrzucają swoje żetony na przemian, aż jeden z nich ułoży cztery żetony w poziomie, pionie lub ukosie. Wygrywa ten gracz, który zrobi to jako pierwszy. Jeżeli natomiast plansza się zapełni, a nie utworzy się żadna czwórka, jest remis. [Wikipedia](https://pl.wikipedia.org/wiki/Czw%C3%B3rki)
-Program implementuje zarówno klasyczną wersję gry jak i odmianę [*PopOut*](https://en.wikipedia.org/wiki/Connect_Four#PopOut) z możliwością usuwania żetonów ze spodu planszy.
+Program implementuje zarówno klasyczną wersję gry, jak i odmianę [*PopOut*](https://en.wikipedia.org/wiki/Connect_Four#PopOut) z możliwością usuwania żetonów ze spodu planszy.
 
 ## Technologie
 - Python 3.8.2
@@ -125,6 +125,7 @@ Projekt udało się w pełni zrealizować. Wytyczne dla projektu zostały wypeł
 			except WrongMoveException:
 				self.info_label.setText("Can't make a move here!")
 			return wrap
+			
 	@move
 	def drop_move(self, column):
 		# drop_move implementation (throws WrongMoveException)
