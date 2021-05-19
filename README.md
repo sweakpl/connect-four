@@ -1,6 +1,7 @@
+
 # ConnectFour (Cztery w rzędzie)
 *Cztery w rzędzie* ([*Connect Four*](https://en.wikipedia.org/wiki/Connect_Four)) planszowa gra logiczna dla dwóch osób, w której wykorzystuje się planszę o wymiarach 7 x 6 pól. Pierwszy gracz wrzuca swój żeton do wybranej przez niego kolumny. Żeton zajmuje najniższą pozycję. Gracze wrzucają swoje żetony na przemian, aż jeden z nich ułoży cztery żetony w poziomie, pionie lub ukosie. Wygrywa ten gracz, który zrobi to jako pierwszy. Jeżeli natomiast plansza się zapełni, a nie utworzy się żadna czwórka, jest remis. [Wikipedia](https://pl.wikipedia.org/wiki/Czw%C3%B3rki)
-Program implementuje zarówno klasyczną wersję gry, jak i odmianę [*PopOut*](https://en.wikipedia.org/wiki/Connect_Four#PopOut) z możliwością usuwania żetonów ze spodu planszy.
+Program implementuje zarówno klasyczną wersję gry jak i odmianę [*PopOut*](https://en.wikipedia.org/wiki/Connect_Four#PopOut) z możliwością usuwania żetonów ze spodu planszy.
 
 ## Technologie
 - Python 3.8.2
@@ -34,8 +35,7 @@ Projekt udało się w pełni zrealizować. Wytyczne dla projektu zostały wypeł
 1. Wyrażenia lambda: 
 	- [Przykład 1](https://github.com/sweakpl/connect-four/blob/c48716e2000b34ad9ae50820b29df5f9f5f49089/mainwindow.py#L143-L146)
 	```python
-	for drop_button, pop_button, column in zip(self.drop_buttons,
-	self.pop_buttons, range(7)):
+	for drop_button, pop_button, column in zip(self.drop_buttons, self.pop_buttons, range(7)):
 		drop_button.clicked.connect(lambda *args, column=column: self.drop_move(column))
 		pop_button.clicked.connect(lambda *args, column=column: self.pop_move(column))
 	```
@@ -45,8 +45,10 @@ Projekt udało się w pełni zrealizować. Wytyczne dla projektu zostały wypeł
 		lambda *args: self.set_game_mode(self.game_mode_combo_box.currentText()))
 	```
 	- [Przykład 3](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/gamestatedialog.py#L41)
+	
 	```python
 	self.ok_button.clicked.connect(lambda: self.accept())
+	```
 2. Wyrażenia listowe:
 	- [Przykład 1](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/mainwindow.py#L123)
 	```python
@@ -112,6 +114,8 @@ Projekt udało się w pełni zrealizować. Wytyczne dla projektu zostały wypeł
 	├── connectfour_test.py
 	├── gamestatedialog.py
 	└── mainwindow.py
+	```
+	
 6. Dekoratory:
 	- [Przykład 1](https://github.com/sweakpl/connect-four/blob/1a4def3bf4797e94898122369af0888934c04cf7/mainwindow.py#L175-L184)
 	```python
@@ -133,3 +137,4 @@ Projekt udało się w pełni zrealizować. Wytyczne dla projektu zostały wypeł
 	@move
 	def pop_move(self, column):
 		# pop_move implementation (throws WrongMoveException)
+	```
