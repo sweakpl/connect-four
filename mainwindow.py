@@ -10,13 +10,16 @@ import gamestatedialog
 
 
 class MainWindow(QMainWindow):
+    '''Main game window that displays the game board, buttons and other game controls'''
     def __init__(self):
+        '''Initialize the game window interface and backend'''
         super().__init__()
         self.game = ConnectFourClassic()
         self.init_interface()
         self.init_backend()
 
     def init_interface(self):
+        '''Initialize the apperance of the window and game controls'''
         self.set_font()
         self.set_window_properties()
         self.set_top_controls()
@@ -25,11 +28,12 @@ class MainWindow(QMainWindow):
         self.set_menu()
 
     def set_font(self):
-        # font will be used in styling the text in the widgets
+        '''Setting the font that will be used in styling the text in the widgets'''
         self.font = QFont("Comic Sans MS", 10)
         self.font.setBold(True)
 
     def set_window_properties(self):
+        '''Set window size, title and other properties'''
         self.setWindowTitle("Connect Four")
         self.setFixedSize(QSize(720, 825))
         # setting central layout for all the game components
@@ -37,13 +41,14 @@ class MainWindow(QMainWindow):
         self.central_layout = QVBoxLayout(self.centralWidget())
 
     def set_top_controls(self):
-        # top controls will be used to drop the coins on the board
+        '''Set the top controls that will be used to drop the coins on the board'''
         self.top_controls_widget = QWidget(self.centralWidget())
         self.central_layout.addWidget(self.top_controls_widget)
         self.top_controls_layout = QHBoxLayout(self.top_controls_widget)
         self.create_drop_buttons()
 
     def set_game_board(self):
+        '''Prepares the apperarnce of the game board based on the game model'''
         self.board_widget = QWidget(self.centralWidget())
         self.central_layout.addWidget(self.board_widget)
         self.board_layout = QGridLayout(self.board_widget)
@@ -53,13 +58,14 @@ class MainWindow(QMainWindow):
         self.render_board()
 
     def set_bottom_controls(self):
-        # bottom controls will be used to pop the coins from the board
+        '''Set the bottom controls that will be used to pop the coins from the board'''
         self.bottom_controls_widget = QWidget(self.centralWidget())
         self.central_layout.addWidget(self.bottom_controls_widget)
         self.bottom_controls_layout = QHBoxLayout(self.bottom_controls_widget)
         self.create_pop_buttons()
 
     def set_menu(self):
+        '''Prepares the menu part of the window'''
         self.menu_widget = QWidget(self.centralWidget())
         self.central_layout.addWidget(self.menu_widget)
         self.menu_layout = QHBoxLayout(self.menu_widget)
@@ -75,8 +81,6 @@ class MainWindow(QMainWindow):
         self.game_mode_combo_box.addItem("PopOut")
         self.game_mode_combo_box.setFont(self.font)
         self.menu_layout.addWidget(self.game_mode_combo_box)
-        self.game_mode_combo_box.currentIndexChanged.connect(
-            lambda *args: self.set_game_mode(self.game_mode_combo_box.currentText()))
         # information label to notify the user about the state of the game
         self.font.setPointSize(15)
         self.info_label = QLabel(self.menu_widget)
@@ -87,7 +91,7 @@ class MainWindow(QMainWindow):
         self.menu_layout.addWidget(self.info_label)
 
     def set_game_mode(self, mode):
-        '''Sets the game mode to one provided'''
+        '''Sets the game mode to one provided by the @mode'''
         self.game_mode = mode
         if self.game_mode == "PopOut":
             self.game = ConnectFourPopOut()
@@ -119,13 +123,13 @@ class MainWindow(QMainWindow):
             self.pop_buttons[i].setEnabled(False)
 
     def render_board(self):
-        '''Updates the board's visual appearance'''
+        '''Updates the board's visual appearance based on the game model'''
         positions = list(chain.from_iterable([[(i, j) for j in range(7)] for i in range(6)]))
         for position in positions:
             self.render_field(position[0], position[1])
 
     def render_field(self, x, y):
-        '''Updates a single board field's appearance'''
+        '''Updates a single board field's appearance based on the game model'''
         field = QLabel(self.board_widget)
         if self.game.get_board()[x][y] == 1:
             field.setPixmap((QPixmap("drawable/red_field.png")))
@@ -136,8 +140,12 @@ class MainWindow(QMainWindow):
         self.board_layout.addWidget(field, x, y)
 
     def init_backend(self):
+        '''Initialize the logic of the game controls on the window'''
         self.game_in_progress = False
         self.game_mode = self.game_mode_combo_box.currentText()
+        # connecting the combo box indexChange event to the function changing the game mode
+        self.game_mode_combo_box.currentIndexChanged.connect(
+            lambda *args: self.set_game_mode(self.game_mode_combo_box.currentText()))
         # connecting the start/restart button with the function handling the click
         self.start_restart_button.clicked.connect(self.start_restart_game)
         # connecting the click events of each game buttons to their corresponding action function
@@ -163,7 +171,7 @@ class MainWindow(QMainWindow):
             self.enable_control_buttons(True)
 
     def enable_control_buttons(self, enable):
-        '''Based on the enable parameter and the game mode either enables or disables the control buttons'''
+        '''Based on the @enable parameter and the game mode either enables or disables the control buttons'''
         for pop, drop in zip(self.pop_buttons, self.drop_buttons):
             drop.setEnabled(enable)
             if enable:
@@ -174,7 +182,6 @@ class MainWindow(QMainWindow):
 
     def move(move_func):
         '''A wrapper function for any type of move during the game'''
-
         def wrap(self, *args, **kwargs):
             try:
                 move_func(self, *args, **kwargs)
@@ -185,7 +192,7 @@ class MainWindow(QMainWindow):
 
     @move
     def drop_move(self, column):
-        '''Drops the current player's coin on the specified column'''
+        '''Drops the current player's coin on the given @column'''
         self.game.drop_move(column)
         if self.game.is_winning(self.game.current_player):
             self.info_label.setText("Player " + str(self.game.current_player) + " won!")
@@ -203,7 +210,7 @@ class MainWindow(QMainWindow):
 
     @move
     def pop_move(self, column):
-        '''Pops the current player's column from the specified column'''
+        '''Pops the current player's column from the given @column'''
         self.game.pop_move(column)
         if self.game.is_winning(self.game.current_player):
             self.info_label.setText("Player " + str(self.game.current_player) + " won!")

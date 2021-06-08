@@ -4,7 +4,9 @@ from gamemodel.wrongmoveexception import WrongMoveException
 
 
 class ConnectFourBase:
+    '''Base class for implementing the full set of rules of a variation of a ConnectFour game'''
     def __init__(self):
+        '''Initialize board size, game board and current player turns'''
         self.current_player = 1
         self.next_player = 2
         self.row_count = 6
@@ -25,7 +27,7 @@ class ConnectFourBase:
         self.current_player = 1
 
     def is_board_full(self):
-        '''Returns True if there is no more free place on the board'''
+        '''Returns True if there is no more free space on the board, else False'''
         return not any(0 in row for row in self.board)
 
     def change_turns(self):
@@ -34,23 +36,26 @@ class ConnectFourBase:
         self.next_player = 1 if self.next_player == 2 else 2
 
     def drop_move(self, column):
-        '''Drops the coin of the current player on the specified column'''
+        '''Drops the coin of the current player on the given @column'''
         raise NotImplementedError('drop_move is not implemented')
 
     def is_valid_drop(self, column):
-        '''Returns True if the drop on the specified column is possible'''
+        '''Returns True if the drop on the given @column is possible, else False'''
         raise NotImplementedError('is_valid_drop is not implemented')
 
     def is_winning(self, player):
-        '''Returns True if the player wins the game'''
+        '''Returns True if the given @player wins the game, else False'''
         raise NotImplementedError('is_winning is not implemented')
 
 
 class ConnectFourClassic(ConnectFourBase):
+    '''Implements the classic version of the ConnectFour game'''
     def __init__(self):
+        '''Initialize board size, game board and current player turns'''
         super().__init__()
 
     def drop_move(self, column):
+        '''Drops the coin of the current player on the given @column'''
         if self.is_valid_drop(column):
             for row in self.board:
                 if row[column] == 0:
@@ -60,12 +65,14 @@ class ConnectFourClassic(ConnectFourBase):
             raise WrongMoveException(column)
 
     def is_valid_drop(self, column):
+        '''Returns True if the drop on the given @column is possible, else False'''
         if self.board[self.row_count - 1][column] != 0:
             return False
         else:
             return True
 
     def is_winning(self, player):
+        '''Returns True if the given @player wins the game, else False'''
         # horizontal
         for col in range(self.column_count - 3):
             for row in range(self.row_count):
@@ -106,10 +113,13 @@ class ConnectFourClassic(ConnectFourBase):
 
 
 class ConnectFourPopOut(ConnectFourBase):
+    '''Implements the PopOut version of the ConnectFour game'''
     def __init__(self):
+        '''Initialize board size, game board and current player turns'''
         super().__init__()
 
     def drop_move(self, column):
+        '''Drops the coin of the current player on the given @column'''
         if self.is_valid_drop(column):
             for row in self.board:
                 if row[column] == 0:
@@ -119,13 +129,14 @@ class ConnectFourPopOut(ConnectFourBase):
             raise WrongMoveException(column)
 
     def is_valid_drop(self, column):
+        '''Returns True if the drop on the given @column is possible, else False'''
         if self.board[self.row_count - 1][column] != 0:
             return False
         else:
             return True
 
     def pop_move(self, column):
-        '''Pops the coin of the current player from the specified column'''
+        '''Pops the coin of the current player from the given @column'''
         if self.is_valid_pop(column):
             for i in range(self.row_count - 1):
                 self.board[i][column] = self.board[i + 1][column]
@@ -134,10 +145,11 @@ class ConnectFourPopOut(ConnectFourBase):
             raise WrongMoveException(column)
 
     def is_valid_pop(self, column):
-        '''Returns True if the pop from the specified column is possible'''
+        '''Returns True if the pop from the given @column is possible, else False'''
         return self.board[0][column] == self.current_player
 
     def is_winning(self, player):
+        '''Returns True if the given @player wins the game, else False'''
         # horizontal
         for col in range(self.column_count - 3):
             for row in range(self.row_count):

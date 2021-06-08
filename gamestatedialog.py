@@ -6,17 +6,21 @@ from PySide2.QtCore import QSize, Qt
 
 
 class GameStateDialog(QDialog):
+    '''Dialog used to display important game events (player won, game drawn)'''
     def __init__(self, game_state):
+        '''Initialize the font, properties and widgets of the dialog based on the @game_state'''
         super().__init__()
         self.set_font()
         self.set_window_properties()
         self.set_window_widgets(game_state)
 
     def set_font(self):
+        '''Sets the font for the whole dialog'''
         self.font = QFont("Comic Sans MS", 15)
         self.font.setBold(True)
 
     def set_window_properties(self):
+        '''Sets the size and other properties of the dialog'''
         self.setWindowTitle("GG")
         self.setFixedSize(QSize(180, 100))
         self.central_widget = QWidget(self)
@@ -24,6 +28,7 @@ class GameStateDialog(QDialog):
         self.setModal(True)
 
     def set_window_widgets(self, game_state):
+        '''Sets the apperance of the dialog widgets based on the @game_state'''
         self.info_label = QLabel(self.central_widget)
         self.central_layout.addWidget(self.info_label)
         if game_state != 0:
