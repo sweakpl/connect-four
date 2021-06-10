@@ -1,4 +1,5 @@
 # This Python file uses the following encoding: utf-8
+#python -m unittest test.connectfour_test
 
 import unittest
 from gamemodel.connectfour import ConnectFourClassic

@@ -1,3 +1,3 @@
 {
-    "files": ["mainwindow.py","gamemodel/connectfour.py","drawable/red_field.png","gamemodel/__init__.py","gamemodel/wrongmoveexception.py","drawable/yellow_field.png","__init__.py","drawable/empty_field.png","connectfour_test.py","gamestatedialog.py"]
+    "files": ["test/connectfour_test.py","interface/mainwindow.py","drawable/yellow_field.png","interface/gamestatedialog.py","interface/__init__.py","gamemodel/wrongmoveexception.py","__init__.py","gamemodel/__init__.py","gamemodel/connectfour.py","drawable/red_field.png","drawable/empty_field.png","main.py","test/__init__.py"]
 }

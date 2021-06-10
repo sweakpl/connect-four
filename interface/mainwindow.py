@@ -6,7 +6,7 @@ from PySide2.QtCore import QSize, Qt
 from itertools import chain
 from gamemodel.connectfour import ConnectFourClassic, ConnectFourPopOut
 from gamemodel.wrongmoveexception import WrongMoveException
-import gamestatedialog
+from interface.gamestatedialog import GameStateDialog
 
 
 class MainWindow(QMainWindow):
@@ -197,12 +197,12 @@ class MainWindow(QMainWindow):
         if self.game.is_winning(self.game.current_player):
             self.info_label.setText("Player " + str(self.game.current_player) + " won!")
             self.enable_control_buttons(False)
-            dialog = gamestatedialog.GameStateDialog(self.game.current_player)
+            dialog = GameStateDialog(self.game.current_player)
             dialog.show()
         elif self.game.is_board_full() and self.game_mode == "Classic":
             self.info_label.setText("Game drawn!")
             self.enable_control_buttons(False)
-            dialog = gamestatedialog.GameStateDialog(0)
+            dialog = GameStateDialog(0)
             dialog.show()
         else:
             self.game.change_turns()
@@ -215,20 +215,13 @@ class MainWindow(QMainWindow):
         if self.game.is_winning(self.game.current_player):
             self.info_label.setText("Player " + str(self.game.current_player) + " won!")
             self.enable_control_buttons(False)
-            dialog = gamestatedialog.GameStateDialog(self.game.current_player)
+            dialog = GameStateDialog(self.game.current_player)
             dialog.show()
         elif self.game.is_winning(self.game.next_player):
             self.info_label.setText("Player " + str(self.game.next_player) + " won!")
             self.enable_control_buttons(False)
-            dialog = gamestatedialog.GameStateDialog(self.game.next_player)
+            dialog = GameStateDialog(self.game.next_player)
             dialog.show()
         else:
             self.game.change_turns()
             self.info_label.setText("Player " + str(self.game.current_player) + " turn!")
-
-
-if __name__ == "__main__":
-    app = QApplication([])
-    win = MainWindow()
-    win.show()
-    app.exec_()

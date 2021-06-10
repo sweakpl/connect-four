@@ -1,4 +1,5 @@
 
+
   
 # ConnectFour (Cztery w rzędzie)
 *Cztery w rzędzie* ([*Connect Four*](https://en.wikipedia.org/wiki/Connect_Four)) planszowa gra logiczna dla dwóch osób, w której wykorzystuje się planszę o wymiarach 7 x 6 pól. Pierwszy gracz wrzuca swój żeton do wybranej przez niego kolumny. Żeton zajmuje najniższą pozycję. Gracze wrzucają swoje żetony na przemian, aż jeden z nich ułoży cztery żetony w poziomie, pionie lub ukosie. Wygrywa ten gracz, który zrobi to jako pierwszy. Jeżeli natomiast plansza się zapełni, a nie utworzy się żadna czwórka, jest remis. [Wikipedia](https://pl.wikipedia.org/wiki/Czw%C3%B3rki)
@@ -138,12 +139,17 @@ Projekt udało się w pełni zrealizować. Wytyczne dla projektu zostały wypeł
 	|	├── __init__.py
 	|	├── connectfour.py
 	|	├── wrongmoveexception.py
+	├── interface/
+	|	├── __init__.py
+	|	├── gamestatedialog.py
+	|	├── mainwindow.py
+	├──test
+	|	├── __init__.py
+	|	├── connectfour_test.py
 	├── ConnectFour.pyproject
 	├── README.md
 	├── __init__.py
-	├── connectfour_test.py
-	├── gamestatedialog.py
-	└── mainwindow.py
+	└── main.py
 	```
 	
 6. Dekoratory:
